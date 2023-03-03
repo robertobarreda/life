@@ -2,19 +2,19 @@
 <html>
 <head>
 <link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="life.js"></script>
 </head>
 
 <body>
 <h2>Your Life in Weeks</h2>
 
-<div id="weeks-container" class="weeks-container hidden">
-  <p>View years <input id="year-switch" type="checkbox" onclick="arrangeByYear();"></p>
+<div id="weeks-container" class="weeks-container">
+  <p>View years <input id="year-switch" type="checkbox" onclick="parseInput();"></p>
   <div id="weeks-calendar"></div>
   <h1>You have lived <span id="weeks-lived"></span> weeks</h1>
   <p id="birthday-msg" class="hidden">🎉 Happy <span id="age"></span> Birthday! 🎉</p>
   <p>If you live to 100 years old, you have <span id="weeks-left"></span> beautiful weeks ahead!</p>
 </div>
-
 </body>
 </html>

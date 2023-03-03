@@ -1,6 +1,6 @@
 const birthdayInput = '1985-11-08';
-var yearSwitchEl = document.getElementById('year-switch');
-var weeksCalendar = document.getElementById('weeks-calendar');
+
+window.addEventListener('load', function() { parseInput(); });
 
 function parseInput() {
     /*
@@ -27,10 +27,8 @@ function parseInput() {
     if (today.isAfter(nextBirthdayWeekReference)) weeksSinceLastBirthday = 51;
     var calendarWeeks = (yearsLived * 52) + weeksSinceLastBirthday;
 
-    //Check if today is birthday
-    var birthMonthDay = birthDate.format('MM-DD');
-    var todayMonthDay = moment(today.format('MM-DD'));
-    if (todayMonthDay.isSame(birthMonthDay)) {
+    // Check if today is birthday
+    if (isBirthday(today, birthDate)) {
         document.getElementById('age').innerHTML = getOrdinal(yearsLived);
         document.getElementById('birthday-msg').className = '';
     } else {
@@ -41,7 +39,7 @@ function parseInput() {
     document.getElementById('weeks-left').innerHTML = 5200 - weeksLived;
 
     document.getElementById('weeks-container').classList.remove('hidden');
-    createCalendar(calendarWeeks, yearSwitchEl.checked);
+    createCalendar(calendarWeeks, document.getElementById('year-switch').checked);
 }
 
 function createCalendar(calendarWeeks, yearView) {
@@ -81,11 +79,18 @@ function createCalendar(calendarWeeks, yearView) {
         }
 
         weeksCalendar.appendChild(year);
+        doSetTimeout(i, year);
     }
 }
 
-function arrangeByYear() {
-    parseInput();
+function doSetTimeout(i, element) {
+    setTimeout(function(){
+      element.classList.add('fadeIn');
+    }, (i*16) + (i*i/6));
+}
+
+function isBirthday(m1, m2){
+    return m1.date() === m2 .date() && m1.month() === m2.month()
 }
 
 var getOrdinal = function(n) {
