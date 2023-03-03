@@ -1,3 +1,4 @@
+<!DOCTYPE html>”
 <html>
 <head>
 <link rel="stylesheet" href="style.css">
@@ -7,14 +8,6 @@
 <body>
 <h2>Your Life in Weeks</h2>
 
-<div class="form-container">
-  <form>
-    <label for="">I was born on...</label>
-    <input type="date" name="bday" id="bday" required="required" onkeyup="checkInput();" onblur="checkInput();">
-    <input type="button" value="See My Weeks Lived" id="submit" onclick="parseInput();">
-  </form>
-</div>
-
 <div id="weeks-container" class="weeks-container hidden">
   <p>View years <input id="year-switch" type="checkbox" onclick="arrangeByYear();"></p>
   <div id="weeks-calendar"></div>
@@ -22,5 +15,6 @@
   <p id="birthday-msg" class="hidden">🎉 Happy <span id="age"></span> Birthday! 🎉</p>
   <p>If you live to 100 years old, you have <span id="weeks-left"></span> beautiful weeks ahead!</p>
 </div>
+
 </body>
 </html>
