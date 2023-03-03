@@ -12,7 +12,7 @@ function repaint() {
 
 function calculateElapsedTime() {
     var unitText = _viewMode();
-    var birthDate = moment(birthday);
+    var birthDate = _birthDate();
     var today = moment();
     var yearsLived = today.diff(birthDate, 'years');
 
@@ -86,7 +86,7 @@ function _viewLived(current, mode) {
 }
 
 function _viewBirthday() {
-    var birthDate = moment(birthday);
+    var birthDate = _birthDate();
     var today = moment();
     if (_isBirthday(today, birthDate)) {
         document.getElementById('age').innerHTML = getOrdinal(today.diff(birthDate, 'years'));
@@ -94,6 +94,10 @@ function _viewBirthday() {
     } else {
         document.getElementById('birthday-msg').className = 'hidden';
     }
+}
+
+function _birthDate() {
+    return moment(window.location.hash.substring(1) || birthday);
 }
 
 function _isBirthday(m1, m2){
