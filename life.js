@@ -1,86 +1,84 @@
-const birthdayInput = '1985-11-08';
+const birthday = '1985-11-08';
+const totalYears = 90;
 
-window.addEventListener('load', function() { parseInput(); });
+window.addEventListener('load', function() {
+    document.getElementById("unitbox").setAttribute("onchange", "repaint()");
+    repaint();
+});
 
-function parseInput() {
-    /*
-    There's a discrepency between actual weeks lived (weeksLived)
-    and the proper number of weeks to show on the calendar (calendarWeeks).
-    Possibly due to leap years. Said discrepency is greater for older folks.
-    For example if my bday is 07-26-1990 and today is 07-26-2017,
-    on the calendar it'll show that I'm already 5 weeks past my birthday.
-    To make this more usable and human-oriented, the calendar will show
-    the proper number of weeks since one's last birthday.
-    This next choice is iffy, but the weeks text will display the actual
-    number of weeks lived and weeks left
-    */
-    var birthDate = moment(birthdayInput);
-    var today = moment();
-    var yearsLived = today.diff(birthDate, 'years');
-    var weeksLived = today.diff(birthDate, 'weeks');
-
-    // If birthday is within a week, set calendar 'Today' to last week of previous age
-    var lastBirthday = moment(birthDate.clone().add(yearsLived, 'y').format('YYYY-MM-DD'));
-    var nextBirthday = moment(lastBirthday.clone().add(1, 'y'));
-    var nextBirthdayWeekReference = nextBirthday.clone().subtract(7, 'days').startOf('day');
-    var weeksSinceLastBirthday = today.diff(lastBirthday, 'weeks');
-    if (today.isAfter(nextBirthdayWeekReference)) weeksSinceLastBirthday = 51;
-    var calendarWeeks = (yearsLived * 52) + weeksSinceLastBirthday;
-
-    // Check if today is birthday
-    if (isBirthday(today, birthDate)) {
-        document.getElementById('age').innerHTML = getOrdinal(yearsLived);
-        document.getElementById('birthday-msg').className = '';
-    } else {
-        document.getElementById('birthday-msg').className = 'hidden';
-    }
-
-    document.getElementById('weeks-lived').innerHTML = weeksLived;
-    document.getElementById('weeks-left').innerHTML = 5200 - weeksLived;
-
-    document.getElementById('weeks-container').classList.remove('hidden');
-    createCalendar(calendarWeeks, document.getElementById('year-switch').checked);
+function repaint() {
+    _repaintItems(calculateElapsedTime(), calculateTotalTime());
 }
 
-function createCalendar(calendarWeeks, yearView) {
-    var weeksCalendar = document.getElementById('weeks-calendar');
-    weeksCalendar.innerHTML = '';
-    weeksCalendar.className = '';
+function calculateElapsedTime() {
+    var unitText = _viewMode();
+    var birthDate = moment(birthday);
+    var today = moment();
+    var yearsLived = today.diff(birthDate, 'years');
 
-    var yearCounter = 0;
-    var weeksCounter = 0;
-    weeksCalendar.className = yearView ? 'years-view' : 'default';
-
-    for (i = 0; i < 100; i++) {
-        var year = document.createElement('div');
-        year.classList.add('year');
-        if (yearView && yearCounter % 10 == 0) {
-            var label = document.createElement('label');
-            label.innerHTML = yearCounter;
-            year.appendChild(label);
-        }
-        yearCounter++;
-
-        for (j = 0; j < 52; j++) {
-            var week = document.createElement('div');
-            week.classList.add('week');
-            if (weeksCounter < calendarWeeks) week.classList.add('lived');
-            if (weeksCounter == calendarWeeks) {
-                week.classList.add('today-container');
-                var label = document.createElement('div');
-                label.classList.add('today-label');
-                var innerWeek = document.createElement('div');
-                innerWeek.classList.add('today', 'week');
-                week.appendChild(innerWeek);
-                week.appendChild(label);
-            }
-            year.appendChild(week);
-            weeksCounter++;
-        }
-
-        weeksCalendar.appendChild(year);
-        doSetTimeout(i, year);
+    switch (unitText) {
+      case 'weeks':
+        // Measuring weeks is tricky since our chart shows 52 weeks per year (for simplicity)
+        // when the actual number of weeks per year is 52.143. Attempting to calculate weeks
+        // with a diffing strategy will result in build-up over time. Instead, we'll add up
+        // 52 per elapsed full year, and only diff the weeks on the current partial year.
+        var lastBirthday = moment(birthDate.clone().add(yearsLived, 'y').format('YYYY-MM-DD'));
+        var nextBirthday = moment(lastBirthday.clone().add(1, 'y'));
+        var nextBirthdayWeekReference = nextBirthday.clone().subtract(7, 'days').startOf('day');
+        var weeksSinceLastBirthday = today.diff(lastBirthday, 'weeks');
+        if (today.isAfter(nextBirthdayWeekReference)) weeksSinceLastBirthday = 51;
+        return (yearsLived * 52) + weeksSinceLastBirthday;
+      case 'months':
+        // Months are tricky, being variable length, so I opted for the average number
+        // of days in a month as a close-enough approximation (30.4375). This can make
+        // the chart look off by a day when you're right on the month threshold, but
+        // it's otherwise fairly accurate over long periods of time.
+        return today.diff(birthDate, 'months');
+      case 'years':
+        // We can represent our millisecond diff as a year and subtract 1970 to
+        // end up with an accurate elapsed time. To see why, consider the following:
+        //
+        //   1. JavaScript's Date timestamp represents milliseconds since 1970. Thus,
+        //      new Date(0).toUTCString() → 'Thu, 01 Jan 1970 00:00:00 GMT'
+        //   2. Picture the diff between today and tomorrow. It's a small number. A
+        //      newly created date with that number would result in January 2 1970.
+        //   3. Thus, subtracting 1970 from that date gives us elapsed time. We use
+        //      UTC because otherwise we'd need to offset "1970" by our timezone.
+        //
+        // See more details here: https://stackoverflow.com/a/24181701/1154642
+        return yearsLived;
     }
+}
+
+function calculateTotalTime() {
+    var unitText = _viewMode();
+
+    switch (unitText) {
+      case 'weeks':
+        return (totalYears * 52);
+      case 'months':
+        return (totalYears * 12);
+      case 'years':
+        return totalYears;
+    }
+}
+
+function _repaintItems(current, total) {
+    var elements = []
+    for (var i = 0; i < total; i++) {
+        var el = document.createElement('li');
+        if (i < current) el.classList.add("done");
+        elements.push(el);
+    }
+
+    var container = document.getElementById('chart');
+    container.replaceChildren(...elements);
+    container.classList.remove("years", "months", "weeks");
+    container.classList.add(_viewMode());
+}
+
+function _viewMode() {
+    return document.querySelector('.unitbox').value.toLowerCase();
 }
 
 function doSetTimeout(i, element) {

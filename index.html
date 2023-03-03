@@ -1,20 +1,34 @@
-<!DOCTYPE html>”
+<!DOCTYPE html>
 <html>
 <head>
+<meta name="description" content="See my life in years. Based on the post by Tim Urban, from Wait by Why.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="style.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="life.js"></script>
+<title>My Life in Years</title>
 </head>
 
 <body>
-<h2>Your Life in Weeks</h2>
+  <div class="title-box">
+    <h1 class="title">
+      Your Life in
+      <select name="unitbox" class="unitbox" id="unitbox" required>
+        <option value="years">Years</option>
+        <option value="months">Months</option>
+        <option value="weeks" selected>Weeks</option>
+      </select>
+    </h1>
+  </div>
 
-<div id="weeks-container" class="weeks-container">
-  <p>View years <input id="year-switch" type="checkbox" onclick="parseInput();"></p>
-  <div id="weeks-calendar"></div>
-  <h1>You have lived <span id="weeks-lived"></span> weeks</h1>
-  <p id="birthday-msg" class="hidden">🎉 Happy <span id="age"></span> Birthday! 🎉</p>
-  <p>If you live to 100 years old, you have <span id="weeks-left"></span> beautiful weeks ahead!</p>
-</div>
+  <ol id="chart" class="chart group"></ol>
+
+  <!-- <div id="weeks-container" class="weeks-container">
+    <div id="weeks-calendar"></div>
+    <h1>You have lived <span id="weeks-lived"></span> weeks</h1>
+    <p id="birthday-msg" class="hidden">🎉 Happy <span id="age"></span> Birthday! 🎉</p>
+    <p>If you live to <span id="weeks-total"></span> years old, you have <span id="weeks-left"></span> beautiful weeks ahead!</p>
+  </div> -->
+
+  <script src="life.js"></script>
 </body>
 </html>

@@ -1,332 +1,330 @@
 *,
-*:after,
-*:before {
+*:before,
+*:after {
     box-sizing: border-box;
     font-family: Avenir, sans-serif;
 }
 
 body {
-    background-color: #280551;
+    background-color: #283044;
     padding: 20px 0 80px;
     font-size: 16px;
 }
 
-h1,
-h2 {
-    color: white;
-    text-align: center;
+.chart > li {
+    background-color: #78a1bb;
 }
 
-.form-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 50px 0 0;
+.chart > li.done {
+    background-color: #f18f01;
 }
 
-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-form label {
-    color: white;
-}
-
-input[type=date] {
-    text-align: center;
-    border: none;
-    background-color: transparent;
-    font-weight: bold;
-    color: white;
-    font-size: 1.5em;
-    margin: 10px -15px 10px 0;
-    padding-left: 25px;
-    min-height: 20px;
-    min-width: 100px;
+.chart {
+    position: relative;
+    margin: 4rem auto 2rem auto;
     padding: 0;
-    border-radius: 0;
-    border-bottom: 2px solid white;
+    list-style-type: none;
 }
 
-input::-webkit-calendar-picker-indicator {
-    display: none;
-}
-
-input[type="date"]::-webkit-input-placeholder {
-    visibility: hidden !important;
-}
-
-input[type=date]::-webkit-outer-spin-button,
-input[type=date]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-input[type=date] {
-    -moz-appearance: textfield;
-}
-
-input[type=button] {
-    font-size: 1em;
-    font-weight: bold;
-    color: white;
-    border: 3px solid #FC1867;
-    border-radius: 8px;
-    background-color: #280551;
-    transition: all 0.3s;
-    -webkit-appearance: none;
-    padding: 4px 8px;
-}
-
-input[type=button]:disabled {
-    color: #492a6d;
-    border-color: #492a6d;
-}
-
-.weeks-container {
+.title-box {
+    padding-top: 1rem;
     text-align: center;
-    color: white;
 }
 
-#weeks-calendar {
-    margin: 80px auto 60px;
-}
-
-#weeks-calendar.default {
-    line-height: 0;
-}
-
-#weeks-calendar.default .year {
-    padding: 0;
+.title {
     display: inline;
-    line-height: 0;
-    opacity: 0;
+    color: white;
+    text-align: center;
 }
 
-@media (min-width: 175px) {
-    #weeks-calendar.default {
-        width: 160px;
-    }
+.unitbox-label {
+    display: inline;
 }
 
-@media (min-width: 260px) {
-    #weeks-calendar.default {
-        width: 244px;
-    }
-}
-
-@media (min-width: 320px) {
-    #weeks-calendar.default {
-        width: 304px;
-    }
-}
-
-@media (min-width: 335px) {
-    #weeks-calendar.default {
-        width: 314px;
-    }
-}
-
-@media (min-width: 400px) {
-    #weeks-calendar.default {
-        width: 390px;
-    }
-}
-
-@media (min-width: 500px) {
-    #weeks-calendar.default {
-        width: 484px;
-    }
-}
-
-@media (min-width: 620px) {
-    #weeks-calendar.default {
-        width: 604px;
-    }
-}
-
-@media (min-width: 680px) {
-    #weeks-calendar.default {
-        width: 624px;
-    }
-}
-
-@media (min-width: 850px) {
-    #weeks-calendar.default {
-        width: 800px;
-    }
-}
-
-@media (min-width: 1090px) {
-    #weeks-calendar.default {
-        width: 1040px;
-    }
-}
-
-@media (max-width: 850px) {
-    #weeks-calendar.default .week {
-        width: 4px;
-        height: 4px;
-    }
-}
-
-@media (min-width: 1250px) {
-    #weeks-calendar.default .week {
-        width: 8px;
-        height: 8px;
-    }
-}
-
-#weeks-calendar.years-view .year {
-    position: relative;
-    line-height: 6px;
-    padding-left: 6px;
-    overflow: visible;
-    white-space: nowrap;
-    opacity: 0;
-}
-
-@media (max-width: 460px) {
-    #weeks-calendar.years-view .year {
-        line-height: 4px;
-    }
-}
-
-#weeks-calendar.years-view label {
-    position: absolute;
-    transform: translatex(-100%) translatey(20%);
-    padding-right: 2px;
-    font-size: 10px;
-}
-
-@media (max-width: 460px) {
-    #weeks-calendar.years-view label {
-        font-size: 9px;
-        transform: translatex(-100%) translatey(50%);
-    }
-}
-
-@media (min-width: 1250px) {
-    #weeks-calendar.years-view label {
-        font-size: 12px;
-        transform: translatex(-100%) translatey(20%);
-    }
-}
-
-@media (max-width: 460px) {
-    #weeks-calendar.years-view .week {
-        width: 4px;
-        height: 4px;
-    }
-}
-
-@media (min-width: 1250px) {
-    #weeks-calendar.years-view .week {
-        width: 8px;
-        height: 8px;
-    }
-}
-
-#weeks-calendar .week {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background-color: #FC1867;
-    margin: 1px;
-    display: inline-block;
-}
-
-#weeks-calendar .week.lived {
-    background-color: #6A16A9;
-}
-
-#weeks-calendar .week.today-container {
-    background-color: transparent;
-    position: relative;
-}
-
-#weeks-calendar .week.today-container .today {
-    position: absolute;
-    top: 0;
-    left: 0;
+.unitbox {
+    display: inline;
+    line-height: 1.125;
     margin: 0;
-    background-color: #2EFFFD;
-    animation: 3s ease-in-out pulse infinite;
+    color: inherit;
+    font-size: inherit;
+    font-weight: 700;
+    border-radius: 0;
+    border-left: none;
+    border-top: none;
+    border-right: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: transparent;
 }
 
-#weeks-calendar .week.today-container .today-label {
-    animation: 3s ease-in-out infinite float;
-}
-
-#weeks-calendar .week.today-container .today-label::after {
-    content: 'TODAY';
-    font-weight: bold;
-    position: absolute;
-    background-color: #280551;
-    padding: 3px 5px 2px;
-    border: 3px solid #FB1A73;
-    line-height: 100%;
-    transform: translatex(-50%) translatey(-140%);
-}
-
-#weeks-calendar .week.today-container .today-label::before {
-    content: '';
-    position: absolute;
-    transform: translatex(-50%) translatey(-65%);
-    border-top: 12px solid #FB1A73;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-bottom: 8px solid transparent;
-}
-
-#weeks-calendar .week.today {
-    background-color: #2EFFFD;
-    position: relative;
-}
-
-.hidden {
+/* Hide arrow icon in IE browsers */
+.unitbox::-ms-expand {
     display: none;
 }
 
-.fadeIn {
-    animation: 0.6s forwards fadeIn;
+.unitbox option {
+    font-weight: normal;
+    font-size: 1em;
 }
 
-@keyframes pulse {
+.x-axis {
+    position: absolute;
+    top: -2.75em;
+    height: 2.75em;
+    width: 100%;
+}
 
-    0%,
-    100% {
-        transform: none;
-    }
+.x-axis .markers,
+.y-axis .markers {
+    font-size: 0.8rem;
+    color: black;
+}
 
-    50% {
-        transform: scale(1.5);
+
+/**
+  * Page Specific styles
+  */
+/* INDEX */
+.index {
+    text-align: center;
+    margin: 25vh auto 0;
+    padding: 0;
+}
+
+.index li {
+    font-size: 2.5em;
+}
+
+/* YEARS */
+.years {
+    max-width: 380px;
+    /* 38px per year * 10years = 380px */
+}
+
+.years>li {
+    border: 1px solid black;
+    width: 5.789473684%;
+    /* 22px/380px */
+    /*  For border-box sizing, width includes borders. Thus a         //
+    //  22px width is a like a padding of 20px with two 1px borders.  */
+    padding-bottom: 5.263157895%;
+    /* 20px/380px */
+    margin: 2.105263158%;
+    /* 8px/380px */
+    float: left;
+    transform: rotate(45deg);
+}
+
+/* MONTHS */
+.months {
+    max-width: 504px;
+    /* 14px per month * 36 months = 504px */
+}
+
+.months>li {
+    border: 1px solid black;
+    width: 2.380952381%;
+    /* 12px/504px */
+    padding-bottom: 1.984126984%;
+    /* 10px/504px */
+    margin: .198412698%;
+    /* 1px/504px */
+    border-radius: 50%;
+    float: left;
+}
+
+/* WEEKS */
+.weeks {
+    max-width: 624px;
+    /* 12px per week * 52weeks = 624px */
+}
+
+.weeks>li {
+    border: 1px solid black;
+    width: 1.282051282%;
+    /* 8px/624px */
+    padding-bottom: .961538462%;
+    /* 6px/624px */
+    margin: .320512821%;
+    /* 2px/624px */
+    float: left;
+}
+
+.weeks--x-label {
+    color: #000080;
+    font-size: 1.25rem;
+}
+
+.weeks--y-label {
+    color: #000080;
+    transform: rotate(-90deg);
+    font-size: 1.25rem;
+    position: absolute;
+    left: -118px;
+    top: 78px;
+}
+
+.weeks--x-arrow {
+    padding-left: 10px;
+    vertical-align: bottom;
+}
+
+@media (max-width: 350px) {
+    .weeks--x-arrow {
+        display: none;
     }
 }
 
-@keyframes float {
-
-    0%,
-    100% {
-        transform: none;
-    }
-
-    50% {
-        transform: translatey(-2px);
-    }
+.weeks--y-arrow {
+    padding-right: 10px;
+    vertical-align: bottom;
 }
 
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-        transform: translatey(10px);
-    }
+.weeks--x-markers span {
+    position: absolute;
+    bottom: 0;
+}
 
-    100% {
-        opacity: 1;
-        transform: none;
-    }
+/* The year is divided into 52 weeks, so the % marker location //
+  // can be found at (1/52)n (where n is the week number). We    //
+  // must offset by 1 because we start counting at 1, so the     //
+  // final equation is (n/52)-(1/52)                             */
+.weeks--x-markers span:nth-of-type(1) {
+    left: 0;
+}
+
+.weeks--x-markers span:nth-of-type(2) {
+    left: 7.6923076920%;
+}
+
+.weeks--x-markers span:nth-of-type(3) {
+    left: 17.307692308%;
+}
+
+.weeks--x-markers span:nth-of-type(4) {
+    left: 26.923076923%;
+}
+
+.weeks--x-markers span:nth-of-type(5) {
+    left: 36.538461538%;
+}
+
+.weeks--x-markers span:nth-of-type(6) {
+    left: 46.153846154%;
+}
+
+.weeks--x-markers span:nth-of-type(7) {
+    left: 55.769230769%;
+}
+
+.weeks--x-markers span:nth-of-type(8) {
+    left: 65.384615385%;
+}
+
+.weeks--x-markers span:nth-of-type(9) {
+    left: 75%;
+}
+
+.weeks--x-markers span:nth-of-type(10) {
+    left: 84.615384615%;
+}
+
+.weeks--x-markers span:nth-of-type(11) {
+    left: 94.230769231%;
+}
+
+.weeks--y-markers span {
+    position: absolute;
+    left: -1.25em;
+}
+
+.weeks--y-markers span:nth-of-type(1) {
+    top: 0;
+}
+
+/* (n/90) */
+.weeks--y-markers span:nth-of-type(2) {
+    top: 5.555555556%;
+}
+
+.weeks--y-markers span:nth-of-type(3) {
+    top: 11.111111111%;
+}
+
+.weeks--y-markers span:nth-of-type(4) {
+    top: 16.666666667%;
+}
+
+.weeks--y-markers span:nth-of-type(5) {
+    top: 22.222222222%;
+}
+
+.weeks--y-markers span:nth-of-type(6) {
+    top: 27.777777778%;
+}
+
+.weeks--y-markers span:nth-of-type(7) {
+    top: 33.333333333%;
+}
+
+.weeks--y-markers span:nth-of-type(8) {
+    top: 38.888888889%;
+}
+
+.weeks--y-markers span:nth-of-type(9) {
+    top: 44.444444444%;
+}
+
+.weeks--y-markers span:nth-of-type(10) {
+    top: 50%;
+}
+
+.weeks--y-markers span:nth-of-type(11) {
+    top: 55.555555556%;
+}
+
+.weeks--y-markers span:nth-of-type(12) {
+    top: 61.111111111%;
+}
+
+.weeks--y-markers span:nth-of-type(13) {
+    top: 66.666666667%;
+}
+
+.weeks--y-markers span:nth-of-type(14) {
+    top: 72.222222222%;
+}
+
+.weeks--y-markers span:nth-of-type(15) {
+    top: 77.777777778%;
+}
+
+.weeks--y-markers span:nth-of-type(16) {
+    top: 83.333333333%;
+}
+
+.weeks--y-markers span:nth-of-type(17) {
+    top: 88.888888889%;
+}
+
+.weeks--y-markers span:nth-of-type(18) {
+    top: 94.444444444%;
+}
+
+.weeks--y-markers span:nth-of-type(19) {
+    bottom: -1em;
+    left: 100%;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+/**
+   * Utilities
+   */
+.group:after {
+    /* "group" is another name for clearfix */
+    content: "";
+    display: table;
+    clear: both;
 }
