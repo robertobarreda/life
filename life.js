@@ -71,28 +71,35 @@ function _repaintItems(current, total) {
         elements.push(el);
     }
 
+    var mode = _viewMode();
     var container = document.getElementById('chart');
     container.replaceChildren(...elements);
-    container.classList.remove("years", "months", "weeks");
-    container.classList.add(_viewMode());
+    container.className = 'chart group';
+    container.classList.add(mode);
+
+    _viewLived(current, mode);
+    _viewBirthday();
+}
+
+function _viewLived(current, mode) {
+    document.getElementById('lived').innerHTML = `${current} ${mode}`;
+}
+
+function _viewBirthday() {
+    var birthDate = moment(birthday);
+    var today = moment();
+    if (_isBirthday(today, birthDate)) {
+        document.getElementById('age').innerHTML = getOrdinal(today.diff(birthDate, 'years'));
+        document.getElementById('birthday-msg').className = '';
+    } else {
+        document.getElementById('birthday-msg').className = 'hidden';
+    }
+}
+
+function _isBirthday(m1, m2){
+    return m1.date() === m2 .date() && m1.month() === m2.month()
 }
 
 function _viewMode() {
     return document.querySelector('.unitbox').value.toLowerCase();
-}
-
-function doSetTimeout(i, element) {
-    setTimeout(function(){
-      element.classList.add('fadeIn');
-    }, (i*16) + (i*i/6));
-}
-
-function isBirthday(m1, m2){
-    return m1.date() === m2 .date() && m1.month() === m2.month()
-}
-
-var getOrdinal = function(n) {
-    var s = ["th", "st", "nd", "rd"],
-        v = n % 100;
-    return n + (s[(v - 20) % 10] || s[v] || s[0]);
 }
