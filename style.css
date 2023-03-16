@@ -126,6 +126,24 @@ body {
     float: left;
 }
 
+/* DAYS */
+.days {
+    max-width: 420px;
+    /* 14px per days * 30 days = 420px */
+}
+
+.days>li {
+    border: 1px solid black;
+    width: 2.380952381%;
+    /* 12px/504px */
+    padding-bottom: 1.984126984%;
+    /* 10px/504px */
+    margin: .198412698%;
+    /* 1px/504px */
+    border-radius: 50%;
+    float: left;
+}
+
 /* WEEKS */
 .weeks {
     max-width: 624px;
