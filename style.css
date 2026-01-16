@@ -7,12 +7,14 @@
 
 body {
     background-color: #283044;
-    padding: 20px 0 80px;
+    min-height: 100vh;
+    padding: 40px 20px 80px;
     font-size: 16px;
 }
 
 .chart > li {
     background-color: #78a1bb;
+    contain: layout style paint;
 }
 
 .chart > li.done {
@@ -22,15 +24,38 @@ body {
 .chart {
     position: relative;
     margin: 0 auto 2rem auto;
-    padding: 0;
+    padding: 2rem;
     list-style-type: none;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    will-change: transform;
 }
 
 .title-box {
     padding-top: 1rem;
+    padding-bottom: 2rem;
     text-align: center;
     color: white;
-    display: inline;
+    display: block;
+}
+
+.title-box h1 {
+    font-size: 2.5rem;
+    font-weight: 300;
+    margin-bottom: 1rem;
+    letter-spacing: 1px;
+}
+
+.title-box h2 {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #a8c5e0;
+    margin-top: 1.5rem;
+}
+
+.title-box h2 span {
+    color: #ff6b35;
+    font-weight: 600;
 }
 
 .unitbox {
@@ -40,14 +65,26 @@ body {
     color: inherit;
     font-size: inherit;
     font-weight: 700;
-    border-radius: 0;
-    border-left: none;
-    border-top: none;
-    border-right: none;
+    border-radius: 8px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    padding: 0.5rem 1rem;
     -moz-appearance: none;
     -webkit-appearance: none;
     appearance: none;
-    background-color: transparent;
+    background-color: rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.unitbox:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.unitbox:focus {
+    outline: none;
+    border-color: #ff6b35;
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.2);
 }
 
 /* Hide arrow icon in IE browsers */
@@ -58,6 +95,8 @@ body {
 .unitbox option {
     font-weight: normal;
     font-size: 1em;
+    background-color: #283044;
+    color: white;
 }
 
 .x-axis {
@@ -90,75 +129,62 @@ body {
 
 /* YEARS */
 .years {
-    max-width: 380px;
-    /* 38px per year * 10years = 380px */
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 8px;
+    max-width: 500px;
+    contain: layout;
 }
 
 .years>li {
-    border: 1px solid black;
-    width: 5.789473684%;
-    /* 22px/380px */
-    /*  For border-box sizing, width includes borders. Thus a         //
-    //  22px width is a like a padding of 20px with two 1px borders.  */
-    padding-bottom: 5.263157895%;
-    /* 20px/380px */
-    margin: 2.105263158%;
-    /* 8px/380px */
-    float: left;
-    transform: rotate(45deg);
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    aspect-ratio: 1;
 }
 
 /* MONTHS */
 .months {
-    max-width: 504px;
-    /* 14px per month * 36 months = 504px */
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 4px;
+    max-width: 600px;
+    contain: layout;
 }
 
 .months>li {
-    border: 1px solid black;
-    width: 2.380952381%;
-    /* 12px/504px */
-    padding-bottom: 1.984126984%;
-    /* 10px/504px */
-    margin: .198412698%;
-    /* 1px/504px */
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    aspect-ratio: 1;
     border-radius: 50%;
-    float: left;
 }
 
 /* DAYS */
 .days {
-    max-width: 420px;
-    /* 14px per days * 30 days = 420px */
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-rows: repeat(365, 1fr);
+    gap: 1px;
+    max-width: 800px;
+    contain: layout;
 }
 
 .days>li {
-    border: 1px solid black;
-    width: 2.380952381%;
-    /* 12px/504px */
-    padding-bottom: 1.984126984%;
-    /* 10px/504px */
-    margin: .198412698%;
-    /* 1px/504px */
+    border: none;
+    aspect-ratio: 1;
     border-radius: 50%;
-    float: left;
 }
 
 /* WEEKS */
 .weeks {
-    max-width: 624px;
-    /* 12px per week * 52weeks = 624px */
+    display: grid;
+    grid-template-columns: repeat(52, 1fr);
+    gap: 2px;
+    max-width: 800px;
+    contain: layout;
 }
 
 .weeks>li {
-    border: 1px solid black;
-    width: 1.282051282%;
-    /* 8px/624px */
-    padding-bottom: .961538462%;
-    /* 6px/624px */
-    margin: .320512821%;
-    /* 2px/624px */
-    float: left;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    aspect-ratio: 1;
+    border-radius: 2px;
 }
 
 .weeks--x-label {
@@ -196,139 +222,6 @@ body {
     bottom: 0;
 }
 
-/* The year is divided into 52 weeks, so the % marker location //
-  // can be found at (1/52)n (where n is the week number). We    //
-  // must offset by 1 because we start counting at 1, so the     //
-  // final equation is (n/52)-(1/52)                             */
-.weeks--x-markers span:nth-of-type(1) {
-    left: 0;
-}
-
-.weeks--x-markers span:nth-of-type(2) {
-    left: 7.6923076920%;
-}
-
-.weeks--x-markers span:nth-of-type(3) {
-    left: 17.307692308%;
-}
-
-.weeks--x-markers span:nth-of-type(4) {
-    left: 26.923076923%;
-}
-
-.weeks--x-markers span:nth-of-type(5) {
-    left: 36.538461538%;
-}
-
-.weeks--x-markers span:nth-of-type(6) {
-    left: 46.153846154%;
-}
-
-.weeks--x-markers span:nth-of-type(7) {
-    left: 55.769230769%;
-}
-
-.weeks--x-markers span:nth-of-type(8) {
-    left: 65.384615385%;
-}
-
-.weeks--x-markers span:nth-of-type(9) {
-    left: 75%;
-}
-
-.weeks--x-markers span:nth-of-type(10) {
-    left: 84.615384615%;
-}
-
-.weeks--x-markers span:nth-of-type(11) {
-    left: 94.230769231%;
-}
-
-.weeks--y-markers span {
-    position: absolute;
-    left: -1.25em;
-}
-
-.weeks--y-markers span:nth-of-type(1) {
-    top: 0;
-}
-
-/* (n/90) */
-.weeks--y-markers span:nth-of-type(2) {
-    top: 5.555555556%;
-}
-
-.weeks--y-markers span:nth-of-type(3) {
-    top: 11.111111111%;
-}
-
-.weeks--y-markers span:nth-of-type(4) {
-    top: 16.666666667%;
-}
-
-.weeks--y-markers span:nth-of-type(5) {
-    top: 22.222222222%;
-}
-
-.weeks--y-markers span:nth-of-type(6) {
-    top: 27.777777778%;
-}
-
-.weeks--y-markers span:nth-of-type(7) {
-    top: 33.333333333%;
-}
-
-.weeks--y-markers span:nth-of-type(8) {
-    top: 38.888888889%;
-}
-
-.weeks--y-markers span:nth-of-type(9) {
-    top: 44.444444444%;
-}
-
-.weeks--y-markers span:nth-of-type(10) {
-    top: 50%;
-}
-
-.weeks--y-markers span:nth-of-type(11) {
-    top: 55.555555556%;
-}
-
-.weeks--y-markers span:nth-of-type(12) {
-    top: 61.111111111%;
-}
-
-.weeks--y-markers span:nth-of-type(13) {
-    top: 66.666666667%;
-}
-
-.weeks--y-markers span:nth-of-type(14) {
-    top: 72.222222222%;
-}
-
-.weeks--y-markers span:nth-of-type(15) {
-    top: 77.777777778%;
-}
-
-.weeks--y-markers span:nth-of-type(16) {
-    top: 83.333333333%;
-}
-
-.weeks--y-markers span:nth-of-type(17) {
-    top: 88.888888889%;
-}
-
-.weeks--y-markers span:nth-of-type(18) {
-    top: 94.444444444%;
-}
-
-.weeks--y-markers span:nth-of-type(19) {
-    bottom: -1em;
-    left: 100%;
-    font-size: 1.5em;
-    font-weight: bold;
-}
-
 /**
    * Utilities
    */
@@ -340,6 +233,14 @@ body {
 }
 
 .hidden {
-    visibility: hidden;
-    height: 0px;
+    display: none !important;
+}
+
+#birthday-msg {
+    font-size: 1.8rem;
+    margin-top: 1.5rem;
+    padding: 1rem 2rem;
+    background-color: #ff6b35;
+    border-radius: 12px;
+    display: inline-block;
 }

@@ -2,61 +2,48 @@ const birthday = '1985-11-08';
 const totalYears = 90;
 
 window.addEventListener('load', function() {
-    document.getElementById("unitbox").setAttribute("onchange", "repaint()");
+    document.getElementById("unitbox").addEventListener("change", repaint);
     repaint();
 });
 
 function repaint() {
-    _repaintItems(calculateElapsedTime(), calculateTotalTime());
-}
-
-function calculateElapsedTime() {
     var unitText = _viewMode();
     var birthDate = _birthDate();
-    var today = moment();
+    _repaintItems(calculateElapsedTime(unitText, birthDate), calculateTotalTime(unitText, birthDate), unitText, birthDate);
+}
 
+function calculateElapsedTime(unitText, birthDate) {
+    var today = moment();
     return today.diff(birthDate, unitText);
 }
 
-function calculateTotalTime() {
-    var unitText = _viewMode();
-
-    switch (unitText) {
-      case 'days':
-        return (totalYears * 365);
-      case 'weeks':
-        return (totalYears * 52);
-      case 'months':
-        return (totalYears * 12);
-      case 'years':
-        return totalYears;
-    }
+function calculateTotalTime(unitText, birthDate) {
+    var futureDate = moment(birthDate).add(totalYears, 'years');
+    return futureDate.diff(birthDate, unitText);
 }
 
-function _repaintItems(current, total) {
-    var elements = []
+function _repaintItems(current, total, mode, birthDate) {
+    var fragment = document.createDocumentFragment();
     for (var i = 0; i < total; i++) {
         var el = document.createElement('li');
         if (i < current) el.classList.add("done");
-        elements.push(el);
+        fragment.appendChild(el);
     }
 
-    var mode = _viewMode();
     var container = document.getElementById('chart');
-    container.replaceChildren(...elements);
+    container.replaceChildren(fragment);
     container.className = 'chart group';
     container.classList.add(mode);
 
     _viewLived(current, mode);
-    _viewBirthday();
+    _viewBirthday(birthDate);
 }
 
 function _viewLived(current, mode) {
-    document.getElementById('lived').innerHTML = `${current} ${mode}`;
+    document.getElementById('lived').innerHTML = `${current}`;
 }
 
-function _viewBirthday() {
-    var birthDate = _birthDate();
+function _viewBirthday(birthDate) {
     var today = moment();
     if (_isBirthday(today, birthDate)) {
         document.getElementById('age').innerHTML = getOrdinal(today.diff(birthDate, 'years'));
@@ -66,12 +53,18 @@ function _viewBirthday() {
     }
 }
 
+function getOrdinal(n) {
+    var s = ["th", "st", "nd", "rd"];
+    var v = n % 100;
+    return n + (s[(v - 20) % 10] || s[v] || s[0]);
+}
+
 function _birthDate() {
     return moment(window.location.hash.substring(1) || birthday);
 }
 
 function _isBirthday(m1, m2){
-    return m1.date() === m2 .date() && m1.month() === m2.month()
+    return m1.date() === m2.date() && m1.month() === m2.month()
 }
 
 function _viewMode() {
