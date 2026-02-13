@@ -2,245 +2,144 @@
 *:before,
 *:after {
     box-sizing: border-box;
-    font-family: Avenir, sans-serif;
+    font-family: Monaco, 'Courier New', Courier, monospace;
 }
 
 body {
-    background-color: #283044;
+    background-color: #000000;
+    color: #ffffff;
     min-height: 100vh;
-    padding: 40px 20px 80px;
+    padding: 40px 20px;
+    margin: 0;
     font-size: 16px;
 }
 
-.chart > li {
-    background-color: #78a1bb;
-    contain: layout style paint;
-}
-
-.chart > li.done {
-    background-color: #f18f01;
-}
-
-.chart {
-    position: relative;
-    margin: 0 auto 2rem auto;
-    padding: 2rem;
-    list-style-type: none;
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: 12px;
-    will-change: transform;
-}
-
 .title-box {
-    padding-top: 1rem;
-    padding-bottom: 2rem;
     text-align: center;
-    color: white;
-    display: block;
+    margin-bottom: 40px;
 }
 
-.title-box h1 {
-    font-size: 2.5rem;
-    font-weight: 300;
-    margin-bottom: 1rem;
-    letter-spacing: 1px;
-}
-
-.title-box h2 {
-    font-size: 1.5rem;
-    font-weight: 400;
-    color: #a8c5e0;
-    margin-top: 1.5rem;
-}
-
-.title-box h2 span {
-    color: #ff6b35;
-    font-weight: 600;
-}
-
-.unitbox {
-    display: inline;
-    line-height: 1.125;
-    margin: 0;
-    color: inherit;
-    font-size: inherit;
-    font-weight: 700;
-    border-radius: 8px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    padding: 0.5rem 1rem;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    appearance: none;
-    background-color: rgba(255, 255, 255, 0.1);
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.unitbox:hover {
-    background-color: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.5);
-}
-
-.unitbox:focus {
-    outline: none;
-    border-color: #ff6b35;
-    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.2);
-}
-
-/* Hide arrow icon in IE browsers */
-.unitbox::-ms-expand {
-    display: none;
-}
-
-.unitbox option {
+.title {
+    font-size: 2rem;
     font-weight: normal;
-    font-size: 1em;
-    background-color: #283044;
-    color: white;
+    margin-bottom: 20px;
 }
 
-.x-axis {
+#lived {
+    color: #34d399;
+}
+
+.unit-selector {
+    position: relative;
+    display: inline-block;
+}
+
+.unit-display {
+    cursor: pointer;
+    user-select: none;
+}
+
+.selected {
+    color: #34d399;
+}
+
+.unit-options {
     position: absolute;
-    top: -2.75em;
-    height: 2.75em;
-    width: 100%;
-}
-
-.x-axis .markers,
-.y-axis .markers {
-    font-size: 0.8rem;
-    color: black;
-}
-
-
-/**
-  * Page Specific styles
-  */
-/* INDEX */
-.index {
-    text-align: center;
-    margin: 25vh auto 0;
-    padding: 0;
-}
-
-.index li {
-    font-size: 2.5em;
-}
-
-/* YEARS */
-.years {
-    display: grid;
-    grid-template-columns: repeat(10, 1fr);
-    gap: 8px;
-    max-width: 500px;
-    contain: layout;
-}
-
-.years>li {
-    border: 1px solid rgba(0, 0, 0, 0.3);
-    aspect-ratio: 1;
-}
-
-/* MONTHS */
-.months {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 4px;
-    max-width: 600px;
-    contain: layout;
-}
-
-.months>li {
-    border: 1px solid rgba(0, 0, 0, 0.3);
-    aspect-ratio: 1;
-    border-radius: 50%;
-}
-
-/* DAYS */
-.days {
-    display: grid;
-    grid-auto-flow: column;
-    grid-template-rows: repeat(365, 1fr);
-    gap: 1px;
-    max-width: 800px;
-    contain: layout;
-}
-
-.days>li {
-    border: none;
-    aspect-ratio: 1;
-    border-radius: 50%;
-}
-
-/* WEEKS */
-.weeks {
-    display: grid;
-    grid-template-columns: repeat(52, 1fr);
-    gap: 2px;
-    max-width: 800px;
-    contain: layout;
-}
-
-.weeks>li {
-    border: 1px solid rgba(0, 0, 0, 0.3);
-    aspect-ratio: 1;
-    border-radius: 2px;
-}
-
-.weeks--x-label {
-    color: #000080;
-    font-size: 1.25rem;
-}
-
-.weeks--y-label {
-    color: #000080;
-    transform: rotate(-90deg);
-    font-size: 1.25rem;
-    position: absolute;
-    left: -118px;
-    top: 78px;
-}
-
-.weeks--x-arrow {
-    padding-left: 10px;
-    vertical-align: bottom;
-}
-
-@media (max-width: 350px) {
-    .weeks--x-arrow {
-        display: none;
-    }
-}
-
-.weeks--y-arrow {
-    padding-right: 10px;
-    vertical-align: bottom;
-}
-
-.weeks--x-markers span {
-    position: absolute;
-    bottom: 0;
-}
-
-/**
-   * Utilities
-   */
-.group:after {
-    /* "group" is another name for clearfix */
-    content: "";
-    display: table;
-    clear: both;
+    left: 0;
+    background-color: #000000;
+    border: 1px solid #ffffff;
+    margin-top: 10px;
+    z-index: 100;
+    text-align: left;
+    min-width: 150px;
 }
 
 .hidden {
-    display: none !important;
+    display: none;
+}
+
+.unit-option {
+    padding: 10px 20px;
+    cursor: pointer;
+    color: #ffffff;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    font-size: 1rem;
+}
+
+.unit-option:hover {
+    background-color: #1a1a1a;
+}
+
+.unit-option.active {
+    color: #34d399;
 }
 
 #birthday-msg {
-    font-size: 1.8rem;
-    margin-top: 1.5rem;
-    padding: 1rem 2rem;
-    background-color: #ff6b35;
-    border-radius: 12px;
-    display: inline-block;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #34d399;
+    font-size: 1rem;
+}
+
+.chart {
+    margin: 0 auto;
+    padding: 0;
+    list-style-type: none;
+}
+
+.chart > li {
+    aspect-ratio: 1;
+    background-color: transparent;
+    border: 1px solid #ffffff;
+}
+
+.chart > li.done {
+    background-color: #34d399;
+    border: none;
+}
+
+.years {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 2px;
+    max-width: 500px;
+}
+
+.months {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 2px;
+    max-width: 300px;
+}
+
+.weeks {
+    display: grid;
+    grid-template-columns: repeat(52, 1fr);
+    gap: 1px;
+    max-width: 800px;
+}
+
+@media (max-width: 850px) {
+    .weeks {
+        max-width: 95vw;
+    }
+}
+
+@media (max-width: 350px) {
+    .months {
+        max-width: 95vw;
+    }
+}
+
+@media (max-width: 550px) {
+    .years {
+        max-width: 95vw;
+    }
+
+    .title {
+        font-size: 1.5rem;
+    }
 }

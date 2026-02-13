@@ -1,28 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="description" content="See my life in years. Based on the post by Tim Urban, from Wait by Why.">
+<meta name="description" content="Visualize your life in years, months, or weeks">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="style.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<title>My Life in Years</title>
+<title>Life Visualizer</title>
 </head>
 
 <body>
   <div class="title-box">
     <h1 class="title">
       You have lived <span id="lived"></span>
-      <select name="unitbox" class="unitbox" id="unitbox" required>
-        <option value="years">Years</option>
-        <option value="months">Months</option>
-        <option value="weeks" selected>Weeks</option>
-        <option value="days">Days</option>
-      </select>
+      <span class="unit-selector">
+        <span class="unit-display" id="unit-display"></span>
+        <div class="unit-options hidden" id="unit-options">
+          <button class="unit-option" data-unit="years">years</button>
+          <button class="unit-option" data-unit="months">months</button>
+          <button class="unit-option active" data-unit="weeks">weeks</button>
+        </div>
+      </span>
     </h1>
-    <p id="birthday-msg" class="hidden">🎉 Happy <span id="age"></span> Birthday! 🎉</p>
   </div>
 
-  <ol id="chart" class="chart group"></ol>
+  <p id="birthday-msg" class="hidden">happy #<span id="age"></span></p>
+
+  <ol id="chart" class="chart"></ol>
 
   <script src="life.js"></script>
 </body>

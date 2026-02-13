@@ -1,72 +1,110 @@
 const birthday = '1985-11-08';
 const totalYears = 90;
 
-window.addEventListener('load', function() {
-    document.getElementById("unitbox").addEventListener("change", repaint);
+window.addEventListener('load', () => {
+    setupUnitSelector();
     repaint();
 });
 
+function setupUnitSelector() {
+    const display = document.getElementById('unit-display');
+    const options = document.getElementById('unit-options');
+    const optionButtons = document.querySelectorAll('.unit-option');
+
+    function updateSelectedUnit() {
+        const activeButton = document.querySelector('.unit-option.active');
+        display.textContent = activeButton.getAttribute('data-unit');
+    }
+
+    updateSelectedUnit();
+
+    display.addEventListener('click', (e) => {
+        e.stopPropagation();
+        options.classList.toggle('hidden');
+    });
+
+    document.addEventListener('click', () => {
+        options.classList.add('hidden');
+    });
+
+    options.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+
+    optionButtons.forEach((button) => {
+        button.addEventListener('click', function() {
+            optionButtons.forEach((btn) => btn.classList.remove('active'));
+            this.classList.add('active');
+            updateSelectedUnit();
+            options.classList.add('hidden');
+            repaint();
+        });
+    });
+}
+
 function repaint() {
-    var unitText = _viewMode();
-    var birthDate = _birthDate();
-    _repaintItems(calculateElapsedTime(unitText, birthDate), calculateTotalTime(unitText, birthDate), unitText, birthDate);
+    const unit = getActiveUnit();
+    const birthDate = getBirthDate();
+    const current = calculateElapsedTime(unit, birthDate);
+    const total = calculateTotalTime(unit, birthDate);
+
+    renderChart(current, total, unit);
+    updateLivedCounter(current);
+    updateBirthdayMessage(birthDate);
 }
 
-function calculateElapsedTime(unitText, birthDate) {
-    var today = moment();
-    return today.diff(birthDate, unitText);
+function calculateElapsedTime(unit, birthDate) {
+    return moment().diff(birthDate, unit);
 }
 
-function calculateTotalTime(unitText, birthDate) {
-    var futureDate = moment(birthDate).add(totalYears, 'years');
-    return futureDate.diff(birthDate, unitText);
+function calculateTotalTime(unit, birthDate) {
+    const futureDate = moment(birthDate).add(totalYears, 'years');
+    return futureDate.diff(birthDate, unit);
 }
 
-function _repaintItems(current, total, mode, birthDate) {
-    var fragment = document.createDocumentFragment();
-    for (var i = 0; i < total; i++) {
-        var el = document.createElement('li');
-        if (i < current) el.classList.add("done");
+function renderChart(current, total, unit) {
+    const fragment = document.createDocumentFragment();
+    for (let i = 0; i < total; i++) {
+        const el = document.createElement('li');
+        if (i < current) el.classList.add('done');
         fragment.appendChild(el);
     }
 
-    var container = document.getElementById('chart');
+    const container = document.getElementById('chart');
     container.replaceChildren(fragment);
-    container.className = 'chart group';
-    container.classList.add(mode);
-
-    _viewLived(current, mode);
-    _viewBirthday(birthDate);
+    container.className = `chart ${unit}`;
 }
 
-function _viewLived(current, mode) {
-    document.getElementById('lived').innerHTML = `${current}`;
+function updateLivedCounter(current) {
+    document.getElementById('lived').textContent = current;
 }
 
-function _viewBirthday(birthDate) {
-    var today = moment();
-    if (_isBirthday(today, birthDate)) {
-        document.getElementById('age').innerHTML = getOrdinal(today.diff(birthDate, 'years'));
-        document.getElementById('birthday-msg').className = '';
+function updateBirthdayMessage(birthDate) {
+    const today = moment();
+    const birthdayMsg = document.getElementById('birthday-msg');
+
+    if (isBirthday(today, birthDate)) {
+        document.getElementById('age').textContent = getOrdinal(today.diff(birthDate, 'years'));
+        birthdayMsg.classList.remove('hidden');
     } else {
-        document.getElementById('birthday-msg').className = 'hidden';
+        birthdayMsg.classList.add('hidden');
     }
 }
 
 function getOrdinal(n) {
-    var s = ["th", "st", "nd", "rd"];
-    var v = n % 100;
-    return n + (s[(v - 20) % 10] || s[v] || s[0]);
+    const suffixes = ['th', 'st', 'nd', 'rd'];
+    const v = n % 100;
+    return n + (suffixes[(v - 20) % 10] || suffixes[v] || suffixes[0]);
 }
 
-function _birthDate() {
+function getBirthDate() {
     return moment(window.location.hash.substring(1) || birthday);
 }
 
-function _isBirthday(m1, m2){
-    return m1.date() === m2.date() && m1.month() === m2.month()
+function isBirthday(m1, m2) {
+    return m1.date() === m2.date() && m1.month() === m2.month();
 }
 
-function _viewMode() {
-    return document.querySelector('.unitbox').value.toLowerCase();
+function getActiveUnit() {
+    return document.querySelector('.unit-option.active').getAttribute('data-unit');
 }
