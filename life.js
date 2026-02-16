@@ -67,6 +67,11 @@ function renderChart(current, total, unit) {
     for (let i = 0; i < total; i++) {
         const el = document.createElement('li');
         if (i < current) el.classList.add('done');
+
+        if (unit === 'weeks' && Math.floor(i / 52) % 4 === 3) {
+            el.classList.add('row-gap');
+        }
+
         fragment.appendChild(el);
     }
 
